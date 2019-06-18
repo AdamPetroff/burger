@@ -1,0 +1,34 @@
+version: '2.1'
+
+services:
+  dev:
+    image: node:latest
+    volumes:
+      - ./burger-backend:/usr/src/burger-backend
+      - ./burger-frontend/build:/usr/src/burger-frontend/build
+    working_dir: /usr/src/burger-backend
+    command: bash -c "npm install && npm start"
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongo
+
+  mongo:
+    container_name: burger_mongo
+    build: docker/mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: burger
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+    depends_on:
+      - mongo

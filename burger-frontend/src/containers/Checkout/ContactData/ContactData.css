@@ -1,0 +1,11 @@
+.ContactForm {
+    border: 1px solid grey;
+    width: 80%;
+    margin: 30px auto 50px auto;
+}
+
+@media (min-width: 600px) {
+    .ContactForm {
+        width: 50%;
+    }
+}
